@@ -31,11 +31,10 @@ function energy() {
             energy = 60000 / 3600000 * pvData.pv[i].voltage * pvData.pv[i].current;
             sumEnergy = sumEnergy + energy;
         }
-        var wynik = []
-        wynik.push(sumEnergy, pvData.pv[0].creationTime, pvData.pv[pvData.pv.length - 1].creationTime)
+
 
     }
-    return wynik
+    var wynik = new SumEnergy(pvData.pv[0].creationTime, pvData.pv[pvData.pv.length - 1].creationTime, sumEnergy);
+    console.log(wynik);
+    //return wynik
 }
-
-//energy = current * voltage * differentTime
