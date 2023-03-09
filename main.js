@@ -24,17 +24,21 @@ function energy() {
     for (var i = 0; i < pvData.pv.length - 1; i++) {
         var differentTime = (new Date(pvData.pv[i + 1].creationTime) - new Date(pvData.pv[i].creationTime))
         if (300000 > differentTime > 0) {
-            energy = differentTime / 3600000 * pvData.pv[i].voltage * pvData.pv[i].current;
+            energy = differentTime / 3600000 * pvData.pv[i].voltage * pvData.pv[i].current / 1000;
             sumEnergy = sumEnergy + energy;
         }
         else {
-            energy = 60000 / 3600000 * pvData.pv[i].voltage * pvData.pv[i].current;
+            energy = 60000 / 3600000 * pvData.pv[i].voltage * pvData.pv[i].current / 1000;
             sumEnergy = sumEnergy + energy;
         }
 
 
     }
-    var wynik = new SumEnergy(pvData.pv[0].creationTime, pvData.pv[pvData.pv.length - 1].creationTime, sumEnergy);
+    //var wynik = { startTime: pvData.pv[0].creationTime, endTime: pvData.pv[pvData.pv.length - 1].creationTime, energy: sumEnergy };
+    var wynik = new SumEnergy();
+    wynik.startTime = pvData.pv[0].creationTime;
+    wynik.endTime = pvData.pv[pvData.pv.length - 1].creationTime;
+    wynik.energy = sumEnergy;
     console.log(wynik);
     //return wynik
 }
