@@ -2,7 +2,11 @@ class SumEnergy {
     startTime;
     endTime;
     energy;
-
+    constructor(startTime, endTime, energy) {
+        this.startTime = startTime;
+        this.endTime = endTime;
+        this.energy = energy;
+    }
 }
 
 class PvData {
@@ -11,7 +15,6 @@ class PvData {
     current;
     voltage;
     power;
-
 }
 const SECOND = 1000;
 
@@ -22,8 +25,6 @@ function calculateEnergy(pvData) {
     const fiveMinutes = SECOND * 60 * 5;
     const oneHour = SECOND * 60 * 60;
     const oneMinute = SECOND * 60;
-
-
     var kWhEnergy = 0;
     var sumEnergy = 0;
     for (var i = 0; i < pvData.length - 1; i++) {
@@ -38,10 +39,10 @@ function calculateEnergy(pvData) {
         }
 
     }
-    var wynik = new SumEnergy();
-    wynik.startTime = pvData[0].creationTime;
-    wynik.endTime = pvData[pvData.length - 1].creationTime;
-    wynik.energy = sumEnergy;
+    var wynik = new SumEnergy(pvData[0].creationTime, pvData[pvData.length - 1].creationTime, sumEnergy.toFixed(3));
+    //wynik.startTime = pvData[0].creationTime;
+    //wynik.endTime = pvData[pvData.length - 1].creationTime;
+    //wynik.energy = sumEnergy;
     console.log(wynik);
 
 }
