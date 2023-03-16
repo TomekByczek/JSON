@@ -2,10 +2,12 @@ class SumEnergy {
     startTime;
     endTime;
     energy;
-    constructor(startTime, endTime, energy) {
+    maxEnergy
+    constructor(startTime, endTime, energy, maxEnergy) {
         this.startTime = startTime;
         this.endTime = endTime;
         this.energy = energy;
+        this.maxEnergy = maxEnergy;
     }
 }
 
@@ -26,20 +28,26 @@ function calculateEnergy(pvData) {
     const oneHour = SECOND * 60 * 60;
     const oneMinute = SECOND * 60;
     var kWhEnergy = 0;
+    var kWhEnergyMax = 0;
     var sumEnergy = 0;
     for (var i = 0; i < pvData.length - 1; i++) {
         var timeDiff = (new Date(pvData[i + 1].creationTime) - new Date(pvData[i].creationTime))
-        if (fiveMinutes > timeDiff > 0) {
+        if (fiveMinutes > timeDiff && timeDiff > 0) {
             kWhEnergy = (timeDiff / oneHour) * (pvData[i].voltage * pvData[i].current / 1000);
             sumEnergy = sumEnergy + kWhEnergy;
+            if (kWhEnergyMax < kWhEnergy / (timeDiff / oneMinute)) {
+                kWhEnergyMax = kWhEnergy / (timeDiff / oneMinute);
+            }
         }
         else {
             kWhEnergy = oneMinute / oneHour * pvData[i].voltage * pvData[i].current / 1000;
             sumEnergy = sumEnergy + kWhEnergy;
+            if (kWhEnergyMax < kWhEnergy) {
+                kWhEnergyMax = kWhEnergy;
+            }
         }
-
     }
-    var wynik = new SumEnergy(pvData[0].creationTime, pvData[pvData.length - 1].creationTime, sumEnergy.toFixed(3));
+    var wynik = new SumEnergy(pvData[0].creationTime, pvData[pvData.length - 1].creationTime, sumEnergy.toFixed(3), kWhEnergyMax.toFixed(3));
     //wynik.startTime = pvData[0].creationTime;
     //wynik.endTime = pvData[pvData.length - 1].creationTime;
     //wynik.energy = sumEnergy;
