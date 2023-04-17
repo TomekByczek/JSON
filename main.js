@@ -2,7 +2,7 @@ class SumEnergy {
     startTime;
     endTime;
     energy;
-    maxEnergy
+    maxEnergy;
     constructor(startTime, endTime, energy, maxEnergy, maxPower) {
         this.startTime = startTime;
         this.endTime = endTime;
